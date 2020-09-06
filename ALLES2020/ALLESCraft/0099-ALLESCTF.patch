@@ -1,0 +1,28 @@
+commit 7241a46425a58719c69a9be74c7338594c83816c
+Author: Your Name <you@example.com>
+Date:   Sun Sep 6 08:21:31 2020 +0000
+
+    ALLESCTF patch
+
+diff --git a/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java b/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java
+index 1d419de5..f14dd9c5 100644
+--- a/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java
++++ b/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java
+@@ -497,10 +497,16 @@ public class InitialHandler extends PacketHandler implements PendingConnection
+ 
+         }
+ 
+-        offlineId = UUID.nameUUIDFromBytes( ( "OfflinePlayer:" + getName() ).getBytes( Charsets.UTF_8 ) );
++        //offlineId = UUID.nameUUIDFromBytes( ( "OfflinePlayer:" + getName() ).getBytes( Charsets.UTF_8 ) );
++	//ALLES CTF PATCH
++	//RDJ
++	// UUID for ALLESCTF:
++	offlineId =  Util.getUUID("8526be5c2c8b466183eba160bf9818ec");
++	System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+         if ( uniqueId == null )
+         {
+             uniqueId = offlineId;
++            System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+         }
+ 
+         Callback<LoginEvent> complete = new Callback<LoginEvent>()
