@@ -6,7 +6,10 @@
 ## Challenge Setup
 The challenge server consists of a Waterfall proxy, which is connected to a server running SpongeForge server. The only installed mod on the server is the [OpenComputers](https://github.com/MightyPirates/OpenComputers) mod.  
   
-The main server queues you up for a SpongeForge server. Every SpongeForce server allows one player to connect to it.  
+The Waterfall proxy is also connected to a Queue server. When we first connect to the proxy, moved to the queue server. After completing a simple parkour challenge (flyhacks ftw), we are moved to a SpongeForge server.  
+Each SpongeForge server allows one player to connect at a time.
+
+![](diagrams/png/half_diagram.png)
   
 We are provided with all required files to setup a local server. This also includes source code for a custom "flag" plugin that runs on the SpongeForge server.
 
@@ -38,6 +41,19 @@ TODO, Link to internet card?
 The internet component supports both raw TCP sockets, and HTTP requests. The catch here is that these TCP sockets will originate **from** the SpongeForge server, and thus will not be shot down by the firewall rules. Furthermore, it is also able to connect to any IP on the internet.
 
 ## Putting it all together
-Now that we have a way 
+Now that we have a way to create a TCP proxy from inside the SpongeForce server, we have all required parts to complete the challenge.  
 
+### Final goal
+Let's start by giving a quick overview of the game plan here. We want to setup a TCP session through an OpenComputer program. We will need 3 pieces of software to realise this goal:  
+* An proxy written in Lua
+* A "middleware" proxy (written in Python)
+* An "Evil" Waterfall proxy, to handle auth.
+  
+![](diagrams/png/full_diagram.png)
+
+### Lua
+### Python
+### Waterfall Patch
+
+## Flag time
 
