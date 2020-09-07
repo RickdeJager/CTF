@@ -59,7 +59,7 @@ Now that we have a way to create a TCP proxy from inside the SpongeForce server,
 
 ### Final goal
 Let's start by giving a quick overview of the game plan here. We want to set up a TCP session through an OpenComputers program. We will need 3 pieces of software to realise this goal:  
-* A proxy written in Lua, to run the computer.
+* A proxy written in Lua, to run on the in-game computer.
 * A "middleware" proxy (written in Python).
 * An "Evil" Waterfall proxy, to handle authentication.
   
@@ -160,10 +160,10 @@ The issue is that the SpongeForge server is expecting to receive authentication 
 This can be achieved by creating a new Waterfall proxy and configuring it to run in "offline mode". This allows us to join the SpongeForge server as `ALLESCRAFT`.  
   
 So job done right? Well not exactly. Each user also has a unique UUID, which should also match the UUID defined in `ops.json` before we receive operator permissions.  
-The UUID is calculated differently when a server is in offline mode, hence it won't match the saved UUID. To work around this issue, we can simply hardcode the offline UUID to always return "8526be5c-2c8b-4661-83eb-a160bf9818ec". This will only work for `ALLESCTF`, which is good enough for us.  
+The UUID is calculated differently when a server is in offline mode, hence it won't match the saved UUID. To work around this issue, we can simply hardcode the offline UUID to always return "8526be5c-2c8b-4661-83eb-a160bf9818ec". This will only work for the `ALLESCTF` account, but that is good enough for us.  
   
 I cloned the [Waterfall repository](https://github.com/PaperMC/Waterfall) and added a small "git patch" to hardcode correct UUID:
-```git
+```diff
 diff --git a/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java b/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java
 index 1d419de5..f14dd9c5 100644
 --- a/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java
@@ -192,13 +192,12 @@ Now, we can compile Waterfall and execute it to generate a `config.yml` file. We
 		* address: [PythonProxyIP:25567]
 
 ## Flag time
-With all software in place, it is time to capture the flag!  
+With all software in place, it is time to retrieve the flag!  
   
-First we need to craft an [OpenOs floppy disk](https://ocdoc.cil.li/item:openos_floppy) with the resources on the island. Next we can boot up the computer and paste our Lua code into a new file. Make sure the Python proxy is running, before executing the Lua script.  
-When the script is executed, a connection will appear in the Python proxy.  
+First we need to craft an [OpenOs floppy disk](https://ocdoc.cil.li/item:openos_floppy) with the resources on the island. After which we can boot up the computer and paste our Lua code into a new file. Make sure the Python proxy is running, before executing the Lua script. When the Lua script is executed, a connection will appear in the Python proxy.  
   
 Then, start a second Minecraft client in offline mode, logged in as `ALLESCTF`. I used [Impact](https://impactclient.net/)'s alt manager for convenience.  
-Now, start the "Evil" Waterfall proxy and connect to it from the second client. The connection will be painfully slow and unstable, but should last just long enough to type:
+Finally, start the "Evil" Waterfall proxy and connect to it from the second client. The connection will be painfully slow and unstable, but should last just long enough to type:
 ```
 /op [YourUserName]
 ```
