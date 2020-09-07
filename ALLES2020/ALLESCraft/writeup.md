@@ -156,7 +156,7 @@ while True:
 
 ### "Evil" Waterfall proxy
 At this point, we can already connect to the SpongeForge server, via our Python proxy. When we try to join however, we encounter the following error:  
-![](screenshot/no-forwarding.png)  
+![](screenshots/no-forwarding.png)  
 The issue is that the SpongeForge server is expecting to receive authentication data from an upstream proxy. Therefore, we need some Waterfall proxy that will "vouch" for us when we claim to be `ALLESCTF`.  
 This can be achieved by creating a new Waterfall proxy and configuring it to run in "offline mode". This allows us to join the SpongeForge server as `ALLESCRAFT`.  
   
