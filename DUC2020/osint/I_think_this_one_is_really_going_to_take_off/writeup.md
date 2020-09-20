@@ -10,7 +10,7 @@
 Let's first take a look at all of the information we're given. The following things seem important:
 
 ### The boxing croc
-Googling for `boxing croc australia` reveals a 13 meter tall crocodile status, located in a town called `Humpty Doo`.  This town is fairly close to Darwin International Airport, so it is likely the plane laded or took of from there.  
+Googling for `boxing croc australia` reveals a 13 meter tall crocodile statue, located in a town called `Humpty Doo`.  This town is fairly close to Darwin International Airport, so it is likely the plane landed or took off from there.  
 
 ### The first of September
 We're given a specific date, 2020-09-01. This should help us track down flight records.
