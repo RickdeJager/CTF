@@ -9,13 +9,13 @@
 
 Let's first take a look at all of the information we're given. The following things seem important:
 
-## The boxing croc
-Googling for `boxing croc australia` reveals a 13 meters tall crocodile status, located in a town called `Humpty Doo`.  The closest airport seems to be Darwin International.  
+### The boxing croc
+Googling for `boxing croc australia` reveals a 13 meter tall crocodile status, located in a town called `Humpty Doo`.  This town is fairly close to Darwin International Airport, so it is likely the plane laded or took of from there.  
 
-## The first of September
+### The first of September
 We're given a specific date, 2020-09-01. This should help us track down flight records.
 
-## "One of those big American refueling planes"
+### "One of those big American refueling planes"
 
 Let's start figuring out which aircraft model this could be.  
 A search for "us airforce refuelling plane" returns two predominant results:
@@ -25,9 +25,9 @@ A search for "us airforce refuelling plane" returns two predominant results:
 ![](res/us-google.png)
 
 If read a bit further on the wiki page, we find the following line:
-> In February 2011, [KC-46] was selected [...] to replace older Boeing KC-135 Stratotankers. The first aircraft was _delivered to the Air Force in January 2019_.  
+> In February 2011, the [KC-46] was selected [...] to replace older Boeing KC-135 Stratotankers. The first aircraft was delivered to the Air Force _in January 2019_.  
   
-Let's, for now, assume that our friend saw the KC-135 as they've been around for a lot longer and are still more prevalent.  
+For now, let's assume that our friend saw the KC-135 as they've been around for a lot longer and are likely more prevalent.  
  
 # Plane tracking
 
@@ -35,40 +35,37 @@ Quick warning, I kinda fell down a rabbit hole here. There is a much simpler sol
 
 
 ## Finding a tracker
-Now that we have a model number, location, and date we can start to track the plane. This is a bit problematic, as all of the well-known flight trackers charge (a lot of) money for historical data.  
-  
+Now that we have a model number, location, and a date we can start to track the plane. This is a bit problematic, as all of the well-known flight trackers charge (a lot of) money for access to historical data.  
+
 Luckily I found one tracker that had some free access to historical data:  
 https://www.adsbexchange.com/flight-data-sql-archive/  
-
-Sadly, it does not allow for broad search queries:  
-> Limited history traces are available on a per aircraft basis in the new web ui. 
+The catch is that it only allows for direct queries:
+> Limited history traces are available on a _per aircraft basis_ in the new web ui. 
   
 So we will need to find a registration number first. Afterwards we can verify this number with adsbexchange.
 
 ## Finding registration numbers
 
-To find candidate airplanes, we need a list of all active KC-135's.  
-After some researching, I stumbled upon the following site:  
-https://www.radarbox.com/data/aircraft/K35R  
-(K35R is a variant of the KC-135)  
-This list contains the historical locations for all KC-135's. Sadly, this site only allows free users to view 7 days of historical records, which is not quite enough to find out where all KC-135's were on 2020-09-01.  
+To find candidate airplanes, we need a list of all active KC-135's.
+After some researching, I stumbled upon the following site: https://www.radarbox.com/data/aircraft/K35R   
+This list contains the historical locations for all KC-135's (aka K35R). Sadly, this site only allows free users to view 7 days of historical records, which is not quite enough to find out where all KC-135's were on 2020-09-01.  
   
 However, we _can_ use this data to make a list of candidate planes that were near Australia after 2020-09-12. If we look for all planes near pacific airbases, we get the following candidates:
 | Day | From                | To                   | Identifier |
------------------------------------------------------------------
+|-----|---------------------|----------------------|------------|
 | 16th| Guam, USA           | Fussa, Japan         | 62-3566    |
 | 15th| Naha, Japan         | ?, Japan             | 58-0055    |
 | 14th| Guam, USA           | Basco, Philippines   | 58-0095    |
 | 14th| Itbayat Philippines | Itbayat, Philippenes | 58-0086    |
   
-Now we can just enter these plane identifiers, along with the date (2020-0901) in adsbexchange to see their flight path. We find that both `58-0095` and `58-0086` are good matches.
+Now we can just enter these plane identifiers, along with the date (2020-0901) in adsbexchange.com to see their flight path. We find that both `58-0095` and `58-0086` flew over the boxing croc.
 
 ![](res/plane.png)
 
 ## Registration info
 Now that we have the plane's identifiers, we can use [an online tool](https://www.planelogger.com) to lookup the first flight date.  
 | Plane   | First Flight | 
--------------------------
+|---------|--------------|
 | 58-0095 | 11.8.1959    |
 | 58-0086 | 16.7.1959    |
 
