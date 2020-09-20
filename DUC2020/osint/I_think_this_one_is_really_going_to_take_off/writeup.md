@@ -79,7 +79,7 @@ DUCTF{16-07-59}
 When the CTF was over, some of the other competitors shared their solutions. Turns out there are two major ways to simplify tracking down the plane.  
   
 ## Use ads-b.nl
-I tried to look for a free military plane trackers, but only found paid sites. Turns out there is a free tracker that work perfectly for this challenge.  
+I tried to find a free military plane tracker, but only found paid sites. Turns out there is a free tracker that worked perfectly for this challenge.  
 
  You can set the search region to Australia and lookup all flights on the first of September.
 ![](res/ads-b.png)  
