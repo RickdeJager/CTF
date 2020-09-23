@@ -50,7 +50,8 @@ To find candidate airplanes, we need a list of all active KC-135's.
 After some researching, I stumbled upon the following site: https://www.radarbox.com/data/aircraft/K35R   
 This list contains the historical locations for all KC-135's (aka K35R). Sadly, this site only allows free users to view 7 days of historical records, which is not quite enough to find out where all KC-135's were on 2020-09-01.  
   
-However, we _can_ use this data to make a list of candidate planes that were near Australia after 2020-09-12. If we look for all planes near pacific airbases, we get the following candidates:
+However, we _can_ use this data to make a list of candidate planes that were near Australia after 2020-09-12. If we look for all planes near pacific airbases, we get the following candidates:  
+
 | Day | From                | To                   | Identifier |
 |-----|---------------------|----------------------|------------|
 | 16th| Guam, USA           | Fussa, Japan         | 62-3566    |
@@ -64,6 +65,7 @@ Now we can just enter these plane identifiers, along with the date (2020-0901) i
 
 ## Registration info
 Now that we have the plane's identifiers, we can use [an online tool](https://www.planelogger.com) to lookup the first flight date.  
+
 | Plane   | First Flight | 
 |---------|--------------|
 | 58-0095 | 11.8.1959    |
@@ -86,6 +88,6 @@ I tried to find a free military plane tracker, but only found paid sites. Turns 
 Most aircraft on the list are Australian, so the USAF Stratotankers stick out like a sore thumb.
 
 ## Use social media
-Turns out there were a bunch of aviation enthusiasts / plane spotters that identify and posted about these planes. Searching twitter for "KC-135" or "Stratotanker" would have revealed this tweet:
+Turns out there were a bunch of aviation enthusiasts / plane spotters that identified and posted about these planes online. Searching twitter for "KC-135" or "Stratotanker" would have revealed this tweet:
 
 ![](res/tweet.png)
