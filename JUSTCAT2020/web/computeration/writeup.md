@@ -68,7 +68,7 @@ The final secret-sauce is the last part of the regex. Without it, the engine can
 
 
 ## Exploitation
-> Full exploit code is [available on github](https://github.com/rickdejager/CTF/JUSTCAT2020/web/computernation/code), this section will cover only the juicy parts.  
+> Full exploit code is [available on github](https://github.com/RickdeJager/CTF/tree/master/JUSTCAT2020/web/computeration/code), this section will cover only the juicy parts.  
 
 ### The Game Plan
 1. Load an `iframe` that contains the webapp.
