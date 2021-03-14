@@ -146,4 +146,4 @@ flag{d1fbeab9101e0ee7fc1342e4c96b4603}
 
 ## Alternative solution
 
-Apparently the `root` user was allowed to log in via `ssh` as well. By reading `root`'s public key with `--text-info` we could have logged in as root without needing to resort to custom GTK modules, but hey, where's the fun in that?
+Apparently the `root` user was allowed to log in via `ssh` as well. By reading `root`'s private key with `--text-info` we could have logged in as root without needing to resort to custom GTK modules, but hey, where's the fun in that?
